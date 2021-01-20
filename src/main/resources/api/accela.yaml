@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Accela Rest Composed Api doc
+  version: 1.0.0
+  description: Accela Rest Composed Api doc
+servers:
+  - url: 'localhost:8082'
+tags:
+  - name: Persons
+paths:
+  /persons:
+    get:
+      tags:
+        - Persons
+      summary: A list of Persons
+      responses:
+        '200':
+          description: A list of Persons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: No Persons found.
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+    Unauthorized:
+      description: Authorization information is missing or invalid
+    UnexpectedError:
+      description: Unexpected Error
+      content:
+        '*/*':
+          schema:
+            type: string
+            description: Error message
+  schemas:
+    PersonDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: the ID of the Person
+        firstName:
+          type: string
+          description: the First Name of the Person
+        lastName:
+          type: string
+          description: the Last Name of the Person
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressDTO'
+    AddressDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        personId:
+          type: string
+          description: Id of the parent Person
+        street:
+          type: string
+          description: Street of the Address
+        city:
+          type: string
+          description: City of the Address
+        state:
+          type: string
+          description: State of the Address
+        postalCode:
+          type: string
+          description: Postal Code of the Address
+        
+      
+
+          
