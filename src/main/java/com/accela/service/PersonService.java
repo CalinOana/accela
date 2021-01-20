@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,5 +58,9 @@ public class PersonService {
     public void deletePerson(UUID id) {
         personValidator.validatePersonOnDelete(id);
         personRepository.delete(personRepository.findById(id).get());
+    }
+
+    public BigDecimal getPersonsCount() {
+        return BigDecimal.valueOf(personRepository.count());
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,5 +46,9 @@ public class PersonsController implements PersonsApi {
     public ResponseEntity<Void> deletePerson(@ApiParam(value = "ID of the Person to delete", required = true) @PathVariable("id") UUID id) {
         personService.deletePerson(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @Override
+    public ResponseEntity<BigDecimal> personsCountGet() {
+        return new ResponseEntity<>(personService.getPersonsCount(), HttpStatus.OK);
     }
 }
