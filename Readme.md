@@ -13,10 +13,11 @@
 ## Endpoints
 * Best tested using Postman utility
   * Call http://localhost:8082/persons with verb:
-    * GET    ![getAllPersonsImage](getAllPersonsImage.png)verb to list all persons 
-    * POST  ![postPersonImage.png](postPersonImage.png) verb, with a JSON body like the example, to add a new person 
-    * Put  ![editPersonById.png](editPersonById.png) verb, with a JSON body like the example (make sure id field exists, for example by calling GET), to edit an existing person 
-
+    * GET    ![getAllPersonsImage.png](getAllPersonsImage.png) to list all persons 
+    * POST  ![postPersonImage.png](postPersonImage.png), with a JSON body like the example, to add a new person 
+    * Put  ![editPersonById.png](editPersonById.png), with a JSON body like the example (make sure id field exists, for example by calling GET), to edit an existing person 
+  * Call http://localhost:8082/persons/{id} with verb:
+    * DELETE    ![deletePersonById.png](deletePersonById.png) to delete a person having id
 
 # Database
 * To access the database console (while application is running):
