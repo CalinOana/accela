@@ -4,6 +4,7 @@ import com.accela.BaseServiceIntTest;
 import com.accela.DataMock;
 import com.accela.api.generated.models.AddressDTO;
 import com.accela.api.generated.models.PersonDTO;
+import com.accela.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +18,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PersonsControllerIntTest extends BaseServiceIntTest {
@@ -39,10 +39,10 @@ class PersonsControllerIntTest extends BaseServiceIntTest {
     void personsGetTest() throws Exception {
         personRepository.save(DataMock.mockValidPersonWithAddresses());
         final MvcResult mvcResult = mockMvc.perform(get(PERSONS_API_BASE_PATH).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
-        ObjectMapper objectMapper=new ObjectMapper();
-        List<PersonDTO> persons= objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<PersonDTO> persons = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
                 objectMapper.getTypeFactory().constructCollectionType(List.class, PersonDTO.class));
-        assertEquals(1,persons.size());
+        assertEquals(1, persons.size());
         final PersonDTO personDTO = persons.get(0);
         assertEquals("John", personDTO.getFirstName());
         final List<AddressDTO> addresses = personDTO.getAddresses();
@@ -50,20 +50,30 @@ class PersonsControllerIntTest extends BaseServiceIntTest {
     }
 
     @Test
+    @DisplayName("Given DELETE request to Persons controller assert that status is ok and resource is deleted")
+    @Transactional
+    @Rollback
+    void personsDeleteTest() throws Exception {
+        final Person savedPerson = personRepository.save(DataMock.mockValidPersonWithAddresses());
+         mockMvc.perform(delete(PERSONS_API_BASE_PATH + "/" + savedPerson.getId())).andExpect(status().isOk()).andReturn();
+        assertEquals(0,personRepository.count());
+    }
+    @Test
     @DisplayName("Given POST request to Persons controller assert that status is ok and response is correct")
     @Transactional
     @Rollback
     void personsPostTest() throws Exception {
-        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         final MvcResult mvcResult = mockMvc.perform(post(PERSONS_API_BASE_PATH).contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(DataMock.mockValidPersonDTOWithAddresses())))
                 .andExpect(status().isOk()).andReturn();
-        PersonDTO personDTO= objectMapper.readValue(mvcResult.getResponse().getContentAsString(),PersonDTO.class);
+        PersonDTO personDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), PersonDTO.class);
         assertNotNull(personDTO);
         assertEquals("John", personDTO.getFirstName());
         final List<AddressDTO> addresses = personDTO.getAddresses();
         assertEquals(2, addresses.size());
         assertTrue(addresses.stream().anyMatch(addressDTO -> addressDTO.getCity().equals("City1") || addressDTO.getStreet().equals("Street2")));
     }
+
 }

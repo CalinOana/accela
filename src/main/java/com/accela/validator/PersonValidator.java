@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 import static com.accela.exceptions.ErrorKey.withKey;
 import static com.accela.exceptions.ExceptionMessageKeyConstants.*;
 
@@ -25,7 +27,16 @@ public class PersonValidator extends BaseValidator {
     public void validatePersonOnEdit(PersonDTO personDTO) {
         validateFieldNotNull(personDTO, withKey(NULL_PERSON));
         validateFieldNotNull(personDTO.getId(), withKey(NULL_ID));
-        if (personRepository.findById(personDTO.getId()).isEmpty()) {
+        throwExceptionIfPersonNotFound(personDTO.getId());
+    }
+
+    public void validatePersonOnDelete(UUID id) {
+        validateFieldNotNull(id,withKey(NULL_ID));
+        throwExceptionIfPersonNotFound(id);
+    }
+
+    private void throwExceptionIfPersonNotFound(UUID id) {
+        if (personRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException(withKey(INEXISTENT_PERSON));
         }
     }

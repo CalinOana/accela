@@ -15,6 +15,7 @@
   * Call http://localhost:8082/persons with verb:
     * GET    ![getAllPersonsImage](getAllPersonsImage.png)verb to list all persons 
     * POST  ![postPersonImage.png](postPersonImage.png) verb, with a JSON body like the example, to add a new person 
+    * Put  ![editPersonById.png](editPersonById.png) verb, with a JSON body like the example (make sure id field exists, for example by calling GET), to edit an existing person 
 
 
 # Database

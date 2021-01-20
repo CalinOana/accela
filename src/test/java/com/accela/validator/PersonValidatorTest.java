@@ -44,10 +44,12 @@ class PersonValidatorTest {
                 InvalidInputParameterException.class, () -> personValidator.validatePersonOnCreation(null));
         assertEquals("null.person", invalidInputParameterException.getErrorKey().getKey());
 
-        invalidInputParameterException = assertThrows(InvalidInputParameterException.class, () -> personValidator.validatePersonOnCreation(mockValidPersonDTOWithAddresses().firstName(null)));
+        invalidInputParameterException = assertThrows(InvalidInputParameterException.class,
+                () -> personValidator.validatePersonOnCreation(mockValidPersonDTOWithAddresses().firstName(null)));
         assertEquals("null.person.first.name", invalidInputParameterException.getErrorKey().getKey());
 
-        invalidInputParameterException = assertThrows(InvalidInputParameterException.class, () -> personValidator.validatePersonOnCreation(mockValidPersonDTOWithAddresses().lastName(null)));
+        invalidInputParameterException = assertThrows(InvalidInputParameterException.class,
+                () -> personValidator.validatePersonOnCreation(mockValidPersonDTOWithAddresses().lastName(null)));
         assertEquals("null.person.last.name", invalidInputParameterException.getErrorKey().getKey());
 
     }
@@ -59,11 +61,13 @@ class PersonValidatorTest {
                 InvalidInputParameterException.class, () -> personValidator.validatePersonOnEdit(null));
         assertEquals("null.person", invalidInputParameterException.getErrorKey().getKey());
 
-        invalidInputParameterException = assertThrows(InvalidInputParameterException.class, () -> personValidator.validatePersonOnEdit(mockValidPersonDTOWithAddresses()));
+        invalidInputParameterException = assertThrows(InvalidInputParameterException.class,
+                () -> personValidator.validatePersonOnEdit(mockValidPersonDTOWithAddresses()));
         assertEquals("null.id", invalidInputParameterException.getErrorKey().getKey());
 
         when(personRepositoryMock.findById(any())).thenReturn(Optional.empty());
-        ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class, () -> personValidator.validatePersonOnEdit(mockValidPersonDTOWithAddresses().id(UUID.randomUUID())));
+        ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
+                () -> personValidator.validatePersonOnEdit(mockValidPersonDTOWithAddresses().id(UUID.randomUUID())));
         assertEquals("person.inexistent", resourceNotFoundException.getErrorKey().getKey());
 
     }
@@ -73,6 +77,26 @@ class PersonValidatorTest {
     void validatePersonOnEditTestPositive() {
         when(personRepositoryMock.findById(any())).thenReturn(Optional.of(new Person()));
         assertDoesNotThrow(() -> personValidator.validatePersonOnEdit(mockValidPersonDTOWithAddresses().id(UUID.randomUUID())));
+    }
+
+    @Test
+    @DisplayName("Given valid UUID when validatePersonOnDelete assert does not fail")
+    void validatePersonOnDeleteTestPositive() {
+        when(personRepositoryMock.findById(any())).thenReturn(Optional.of(new Person()));
+        assertDoesNotThrow(() -> personValidator.validatePersonOnDelete(UUID.randomUUID()));
+    }
+
+    @Test
+    @DisplayName("Given valid UUID when validatePersonOnDelete assert fails with correct exception")
+    void validatePersonOnDeleteTestNegative() {
+        InvalidInputParameterException invalidInputParameterException = assertThrows(
+                InvalidInputParameterException.class, () -> personValidator.validatePersonOnDelete(null));
+        assertEquals("null.id", invalidInputParameterException.getErrorKey().getKey());
+
+        when(personRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
+                () -> personValidator.validatePersonOnDelete(UUID.randomUUID()));
+        assertEquals("person.inexistent", resourceNotFoundException.getErrorKey().getKey());
     }
 
 }

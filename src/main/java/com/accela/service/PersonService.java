@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +51,11 @@ public class PersonService {
     public void copyFirstAndLastName(PersonDTO personDTO, Person person) {
         person.setFirstName(personDTO.getFirstName());
         person.setLastName(personDTO.getLastName());
+    }
+
+    @Transactional
+    public void deletePerson(UUID id) {
+        personValidator.validatePersonOnDelete(id);
+        personRepository.delete(personRepository.findById(id).get());
     }
 }
