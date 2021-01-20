@@ -28,6 +28,30 @@ paths:
           description: No Persons found.
         '500':
           $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - Persons
+      summary: Add a sigular Person
+      requestBody:
+        description: Body containing PersonDTO to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonDTO'
+      responses:
+        '200':
+          description: Added PersonDTO response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Endpoint not found.
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
 components:
   responses:

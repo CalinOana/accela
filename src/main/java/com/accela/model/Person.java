@@ -26,7 +26,7 @@ public class Person {
     @Type(type = "uuid-char")
     private UUID id;
 
-    @OneToMany(mappedBy = "person", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", cascade = ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Address> addresses = new HashSet<>();

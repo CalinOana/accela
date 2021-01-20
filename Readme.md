@@ -11,7 +11,11 @@
 * Run spring boot application using maven: `./mvnw spring-boot:run`
 
 ## Endpoints
-* http://localhost:8082/persons to list all persons
+* Best tested using Postman utility
+  * Call http://localhost:8082/persons with verb:
+    * GET    ![getAllPersonsImage](getAllPersonsImage.png)verb to list all persons 
+    * POST  ![postPersonImage.png](postPersonImage.png) verb, with a JSON body like the example, to add a new person 
+
 
 # Database
 * To access the database console (while application is running):

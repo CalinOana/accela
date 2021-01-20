@@ -19,6 +19,17 @@ public class PersonService {
     @Transactional
     public List<PersonDTO> getPersons() {
         final List<Person> all = personRepository.findAll();
-        return modelMapperExtended.mapAll(all,PersonDTO.class);
+        return modelMapperExtended.mapAll(all, PersonDTO.class);
+    }
+
+    @Transactional
+    public PersonDTO createPerson(PersonDTO personDTO) {
+        final Person save = personRepository.save(linkAdressesToPerson(modelMapperExtended.map(personDTO, Person.class)));
+        return modelMapperExtended.map(save, PersonDTO.class);
+    }
+
+    public Person linkAdressesToPerson(Person person) {
+        person.getAddresses().forEach(address -> address.setPerson(person));
+        return person;
     }
 }

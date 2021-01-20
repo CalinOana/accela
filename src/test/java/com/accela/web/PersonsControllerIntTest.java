@@ -16,8 +16,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PersonsControllerIntTest extends BaseServiceIntTest {
@@ -32,7 +33,7 @@ class PersonsControllerIntTest extends BaseServiceIntTest {
     }
 
     @Test
-    @DisplayName("Given request to Persons controller assert that status is ok and response is correct")
+    @DisplayName("Given GET request to Persons controller assert that status is ok and response is correct")
     @Transactional
     @Rollback
     void personsGetTest() throws Exception {
@@ -46,5 +47,24 @@ class PersonsControllerIntTest extends BaseServiceIntTest {
         assertEquals("John", personDTO.getFirstName());
         final List<AddressDTO> addresses = personDTO.getAddresses();
         assertEquals(2, addresses.size());
+    }
+
+    @Test
+    @DisplayName("Given POST request to Persons controller assert that status is ok and response is correct")
+    @Transactional
+    @Rollback
+    void personsPostTest() throws Exception {
+        ObjectMapper objectMapper=new ObjectMapper();
+
+        final MvcResult mvcResult = mockMvc.perform(post(PERSONS_API_BASE_PATH).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(DataMock.mockValidPersonDTOWithAddresses())))
+                .andExpect(status().isOk()).andReturn();
+        PersonDTO personDTO= objectMapper.readValue(mvcResult.getResponse().getContentAsString(),PersonDTO.class);
+        assertNotNull(personDTO);
+        assertEquals("John", personDTO.getFirstName());
+        final List<AddressDTO> addresses = personDTO.getAddresses();
+        assertEquals(2, addresses.size());
+        addresses.forEach(addressDTO -> assertEquals(personDTO.getId(),addressDTO.getPersonId()));
+        assertTrue(addresses.stream().anyMatch(addressDTO -> addressDTO.getCity().equals("City1") || addressDTO.getStreet().equals("Street2")));
     }
 }

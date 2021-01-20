@@ -1,5 +1,7 @@
 package com.accela;
 
+import com.accela.api.generated.models.AddressDTO;
+import com.accela.api.generated.models.PersonDTO;
 import com.accela.model.Address;
 import com.accela.model.Person;
 
@@ -15,6 +17,15 @@ public class DataMock {
                 Address.builder().person(person).city("City2").street("Street2").state("State2").postalCode("Code2").build()
         )));
         return person;
+    }
+
+    public static PersonDTO mockValidPersonDTOWithAddresses() {
+        final PersonDTO personDTO = new PersonDTO().firstName("John").lastName("Doe");
+        personDTO.setAddresses(Arrays.asList(
+                new AddressDTO().city("City1").street("Street1").state("State1").postalCode("Code1"),
+                new AddressDTO().city("City2").street("Street2").state("State2").postalCode("Code2")
+        ));
+        return personDTO;
     }
 
 }

@@ -25,7 +25,8 @@ public class Address {
     @Type(type = "uuid-char")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @Column(name = "street")
