@@ -52,7 +52,31 @@ paths:
           description: Endpoint not found.
         '500':
           $ref: '#/components/responses/UnexpectedError'
-
+    put:
+      tags:
+        - Persons
+      summary: Update Person data
+      operationId: editPerson
+      requestBody:
+        description: Body containing PersonDTO to edit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonDTO'
+      responses:
+        '200':
+          description: Edited PersonDTO response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Endpoint not found.
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 components:
   responses:
     NotFound:
@@ -72,6 +96,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
           description: the ID of the Person
         firstName:
           type: string
@@ -88,6 +113,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         personId:
           type: string
           description: Id of the parent Person

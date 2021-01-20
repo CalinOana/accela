@@ -4,6 +4,7 @@ import com.accela.api.generated.models.PersonDTO;
 import com.accela.components.cast.ModelMapperExtended;
 import com.accela.model.Person;
 import com.accela.repository.PersonRepository;
+import com.accela.validator.PersonValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class PersonService {
     private final PersonRepository personRepository;
     private final ModelMapperExtended modelMapperExtended;
+    private final PersonValidator personValidator;
 
     @Transactional
     public List<PersonDTO> getPersons() {
@@ -24,6 +26,7 @@ public class PersonService {
 
     @Transactional
     public PersonDTO createPerson(PersonDTO personDTO) {
+        personValidator.validatePersonOnCreation(personDTO);
         final Person save = personRepository.save(linkAdressesToPerson(modelMapperExtended.map(personDTO, Person.class)));
         return modelMapperExtended.map(save, PersonDTO.class);
     }
@@ -31,5 +34,21 @@ public class PersonService {
     public Person linkAdressesToPerson(Person person) {
         person.getAddresses().forEach(address -> address.setPerson(person));
         return person;
+    }
+
+    @Transactional
+    public PersonDTO editPerson(PersonDTO personDTO) {
+        personValidator.validatePersonOnEdit(personDTO);
+
+        final Person person = personRepository.findById(personDTO.getId()).get();
+
+        copyFirstAndLastName(personDTO, person);
+
+        return modelMapperExtended.map(personRepository.save(person), PersonDTO.class);
+    }
+
+    public void copyFirstAndLastName(PersonDTO personDTO, Person person) {
+        person.setFirstName(personDTO.getFirstName());
+        person.setLastName(personDTO.getLastName());
     }
 }

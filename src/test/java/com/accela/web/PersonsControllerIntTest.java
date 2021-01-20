@@ -64,7 +64,6 @@ class PersonsControllerIntTest extends BaseServiceIntTest {
         assertEquals("John", personDTO.getFirstName());
         final List<AddressDTO> addresses = personDTO.getAddresses();
         assertEquals(2, addresses.size());
-        addresses.forEach(addressDTO -> assertEquals(personDTO.getId(),addressDTO.getPersonId()));
         assertTrue(addresses.stream().anyMatch(addressDTO -> addressDTO.getCity().equals("City1") || addressDTO.getStreet().equals("Street2")));
     }
 }

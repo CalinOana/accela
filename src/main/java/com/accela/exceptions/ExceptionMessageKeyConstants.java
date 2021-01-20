@@ -1,0 +1,19 @@
+package com.accela.exceptions;
+
+import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
+public final class ExceptionMessageKeyConstants {
+
+    public static final String INEXISTENT_PERSON = "person.inexistent";
+
+
+    public static final String NULL_ID = "null.id";
+    public static final String NULL_PERSON = "null.person";
+    public static final String NULL_PERSON_FIRST_NAME = "null.person.first.name";
+    public static final String NULL_PERSON_LAST_NAME = "null.person.last.name";
+
+
+}

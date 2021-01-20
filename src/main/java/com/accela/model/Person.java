@@ -22,7 +22,7 @@ public class Person {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", nullable = false)
     @Type(type = "uuid-char")
     private UUID id;
 

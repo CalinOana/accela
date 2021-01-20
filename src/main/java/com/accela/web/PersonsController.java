@@ -29,6 +29,13 @@ public class PersonsController implements PersonsApi {
     @Override
     public ResponseEntity<PersonDTO> personsPost(@ApiParam(value = "Body containing PersonDTO to add", required = true)
                                                  @Valid @RequestBody PersonDTO personDTO) {
+
         return new ResponseEntity<>(personService.createPerson(personDTO), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<PersonDTO> editPerson(@ApiParam(value = "Body containing PersonDTO to edit", required = true)
+                                                @Valid @RequestBody PersonDTO personDTO) {
+        return new ResponseEntity<>(personService.editPerson(personDTO), HttpStatus.OK);
     }
 }
