@@ -8,6 +8,7 @@ import static lombok.AccessLevel.PRIVATE;
 public final class ExceptionMessageKeyConstants {
 
     public static final String INEXISTENT_PERSON = "person.inexistent";
+    public static final String INEXISTENT_ADDRESS = "address.inexistent";
 
 
     public static final String NULL_ID = "null.id";

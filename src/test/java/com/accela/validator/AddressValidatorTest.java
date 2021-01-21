@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddressValidatorTest {
 
-    AddressValidator addressValidator=new AddressValidator();
+    AddressValidator addressValidator=new AddressValidator(null);
 
     @Test
     @DisplayName("Given address with valid fields, assert does not throw")

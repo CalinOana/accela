@@ -17,11 +17,13 @@
     * POST  ![postPersonImage.png](postPersonImage.png), with a JSON body like the example, to add a new person 
     * PUT  ![editPersonById.png](editPersonById.png), with a JSON body like the example (make sure id field exists, for example by calling GET), to edit an existing person 
   * Call http://localhost:8082/persons/{id} with verb:
-    * DELETE    ![deletePersonById.png](deletePersonById.png) to delete a person having id
+    * DELETE    ![deletePersonById.png](deletePersonById.png) to delete a person having id as in param
   * Call http://localhost:8082/persons/count with verb:
     * GET    ![personsCount.png](personsCount.png) to get the number of persons saved
   * Call http://localhost:8082/persons/{id}/appendAddresses with verb:
     * PUT    ![appendAddresses.png](appendAddresses.png), with a JSON body like the example, to append addresses to an existing person
+  * Call http://localhost:8082/addresses/{id} with verb:
+    * DELETE   ![img.png](deleteAddress.png) to delete an address having id as in param
 
 
 # Database

@@ -155,6 +155,29 @@ paths:
           description: No Persons found.
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /addresses/{id}:
+    delete:
+      tags:
+        - Addresses
+      summary: Delete Address data
+      operationId: deleteAddress
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the Address to delete
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     NotFound:
