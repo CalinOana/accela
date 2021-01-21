@@ -28,7 +28,7 @@ class PersonValidatorTest {
 
     @BeforeEach
     void setup() {
-        personValidator = new PersonValidator(personRepositoryMock);
+        personValidator = new PersonValidator(personRepositoryMock, null);
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.accela.components.cast.ModelMapperExtended;
 import com.accela.model.Address;
 import com.accela.model.Person;
 import com.accela.repository.PersonRepository;
+import com.accela.validator.PersonValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,12 @@ class PersonServiceTest {
     @Mock
     PersonRepository personRepositoryMock;
 
+    @Mock
+    PersonValidator personValidatorMock;
+
     @BeforeEach
     void setup() {
-        personService = new PersonService(personRepositoryMock, new ModelMapperExtended(new ModelMapper()), null);
+        personService = new PersonService(personRepositoryMock, new ModelMapperExtended(new ModelMapper()), personValidatorMock);
     }
 
     @Test
@@ -59,4 +63,5 @@ class PersonServiceTest {
         when(personRepositoryMock.count()).thenReturn(10L);
         assertEquals(BigDecimal.TEN.toString(), personService.getPersonsCount().toString());
     }
+
 }

@@ -1,6 +1,7 @@
 package com.accela.web;
 
 import com.accela.api.generated.controllers.PersonsApi;
+import com.accela.api.generated.models.AddressDTO;
 import com.accela.api.generated.models.PersonDTO;
 import com.accela.service.PersonService;
 import io.swagger.annotations.ApiParam;
@@ -50,5 +51,13 @@ public class PersonsController implements PersonsApi {
     @Override
     public ResponseEntity<BigDecimal> personsCountGet() {
         return new ResponseEntity<>(personService.getPersonsCount(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<PersonDTO> appendAddresses(@ApiParam(value = "ID of the Person to append the addresses to", required = true)
+                                                @PathVariable("id") UUID id,
+                                                @ApiParam(value = "Body containing Addresses collection to append to Person", required = true)
+                                                @Valid @RequestBody List<AddressDTO> addressDTO) {
+        return new ResponseEntity<>(personService.appendAddressesToPErson(id, addressDTO), HttpStatus.OK);
     }
 }

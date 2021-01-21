@@ -7,6 +7,7 @@ servers:
   - url: 'localhost:8082'
 tags:
   - name: Persons
+  - name: Addresses
 paths:
   /persons:
     get:
@@ -100,6 +101,42 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /persons/{id}/appendAddresses:
+    put:
+      tags:
+        - Persons
+      summary: Append Addresses to Person data
+      operationId: appendAddresses
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the Person to append the addresses to
+      requestBody:
+        description: Body containing Addresses collection to append to Person
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AddressDTO'
+      responses:
+        '200':
+          description: Edited PersonDTO response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /persons/count:
     get:
       tags:
@@ -157,6 +194,7 @@ components:
           format: uuid
         personId:
           type: string
+          format: uuid
           description: Id of the parent Person
         street:
           type: string

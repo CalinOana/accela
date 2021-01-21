@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class DataMock {
+
     public static Person mockValidPersonWithAddresses() {
         final Person person = new Person().toBuilder().id(UUID.randomUUID()).firstName("John").lastName("Doe").build();
         person.setAddresses(new HashSet<>(Arrays.asList(
@@ -28,4 +29,7 @@ public class DataMock {
         return personDTO;
     }
 
+    public static AddressDTO mockValidAddressDTO() {
+        return new AddressDTO().city("City1").street("Street1").state("State1").postalCode("Code1");
+    }
 }

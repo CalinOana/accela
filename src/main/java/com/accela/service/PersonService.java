@@ -1,7 +1,9 @@
 package com.accela.service;
 
+import com.accela.api.generated.models.AddressDTO;
 import com.accela.api.generated.models.PersonDTO;
 import com.accela.components.cast.ModelMapperExtended;
+import com.accela.model.Address;
 import com.accela.model.Person;
 import com.accela.repository.PersonRepository;
 import com.accela.validator.PersonValidator;
@@ -60,7 +62,18 @@ public class PersonService {
         personRepository.delete(personRepository.findById(id).get());
     }
 
+    @Transactional
     public BigDecimal getPersonsCount() {
         return BigDecimal.valueOf(personRepository.count());
+    }
+
+    @Transactional
+    public PersonDTO appendAddressesToPErson(UUID id, List<AddressDTO> addresses) {
+        personValidator.validatePersonOnAppendAddresses(id, addresses);
+        final Person person = personRepository.findById(id).get();
+        person.getAddresses().addAll(modelMapperExtended.mapAll(addresses, Address.class));
+        linkAdressesToPerson(person);
+        personRepository.save(person);
+        return modelMapperExtended.map(person, PersonDTO.class);
     }
 }
