@@ -23,9 +23,10 @@
   * Call http://localhost:8082/persons/{id}/appendAddresses with verb:
     * PUT    ![appendAddresses.png](appendAddresses.png), with a JSON body like the example, to append addresses to an existing person
   * Call http://localhost:8082/addresses/{id} with verb:
-    * DELETE   ![img.png](deleteAddress.png) to delete an address having id as in param
-
-
+    * DELETE   ![deleteAddress.png](deleteAddress.png) to delete an address having id as in param
+  * Call http://localhost:8082/addresses with verb:
+    * PUT  ![putAddress.png](putAddress.png), with a JSON body like the example (make sure id field exists, for example by calling GET), to edit an existing address
+  
 # Database
 * To access the database console (while application is running):
   * `http://localhost:8082/h2-console`

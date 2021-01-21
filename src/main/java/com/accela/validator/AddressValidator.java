@@ -45,4 +45,8 @@ public class AddressValidator extends BaseValidator {
             throw new ResourceNotFoundException(withKey(INEXISTENT_ADDRESS));
         }
     }
+
+    public void validateAddressBeforeEdit(AddressDTO addressDTO) {
+        validateAddressFields(addressDTO);
+    }
 }
